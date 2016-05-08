@@ -4,11 +4,14 @@ import subprocess
 import appindicator
 import gtk
 
+# 2016-05-07 tc@DinkumSoftware.com Bug fix.  Suppress localhost 127.0.0.1
+
 ICON = os.path.abspath("./images/icon.png")
 
 def get_ip():
     ip = subprocess.check_output('ifconfig |\
-        grep -o -P "inet addr:([^ ]*)" |\
+        grep -o -P "inet addr:([^ ]*)"     |\
+        grep -v    "127.0.0.1"             |\
         grep -o -m 1 -P "[0-9.]+"', shell=True)
     return ip.strip()
 
